@@ -14,9 +14,9 @@ exports.getTour = catchAsync(async (req, res, next) => {
     path: 'reviews',
     select: 'review rating user',
   });
-  console.log(tour);
+
   res.status(200).render('tour', {
-    title: tour.slug,
+    title: tour.name,
     tour,
   });
 
@@ -27,3 +27,9 @@ exports.getTour = catchAsync(async (req, res, next) => {
   //   },
   // });
 });
+
+exports.login = (req, res, next) => {
+  res.status(200).render('login', {
+    title: 'Login to your account',
+  });
+};

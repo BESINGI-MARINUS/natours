@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
@@ -16,7 +17,26 @@ const globalErrorHandler = require('./Controllers/errorController');
 const app = express();
 
 // MIDDLEWARES
-app.use(helmet()); // Set security HTTP headers
+// app.use(helmet()); // Set security HTTP headers
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'default-src': ["'self'"],
+        'script-src': ["'self'", 'https://cdn.jsdelivr.net'],
+        'style-src': [
+          "'self'",
+          'https://fonts.googleapis.com',
+          "'unsafe-inline'",
+        ],
+        'font-src': ["'self'", 'https://fonts.gstatic.com'],
+        'img-src': ["'self'", 'data:'],
+        'connect-src': ["'self'"],
+      },
+    },
+  }),
+);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -37,6 +57,7 @@ app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' })); // Limit the size of the request body to 10kb
+app.use(cookieParser());
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize()); // Remove any characters that can be used to query the database
@@ -63,6 +84,7 @@ app.use((req, res, next) => {
   req.requestTime = `0${new Date().getDate()}-0${
     new Date().getMonth() + 1
   }-${new Date().getFullYear()}`;
+  console.log(req.cookies);
   next();
 });
 

@@ -7,6 +7,9 @@ mixin overviewBox(icon,label,text)
         span.overview-box__label= label
         span.overview-box__text= text
 
+block append head
+    script(src='/js/mapbox.js' defer)
+
 block content
     section.section-header
         .header__hero
@@ -47,7 +50,7 @@ block content
 
         - const tourDescription = tour.description.split('\n')
         .description-box
-            h2.heading-secondary.ma-bt-lg= tour.name
+            h2.heading-secondary.ma-bt-lg=`About ${tour.name} tour`
             each text in tourDescription 
                 p.description__text= text
 
@@ -57,7 +60,7 @@ block content
                 img.picture-box__img(src=`/img/tours/${img}`, alt=`${tour.name} Camper Tour ${i + 1}` class=`picture-box__img--${i + 1}`)
 
     section.section-map
-        #map
+        #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
     section.section-reviews
         .reviews
@@ -68,8 +71,8 @@ block content
                         h6.reviews__user= review.user.name
                     p.reviews__text= review.review
                     .reviews__rating
-                        each star, i in [1,2,3,4,5]
-                            svg.reviews__star(class=`reviews__star--${i>review.rating ? 'inactive' : 'active'}`)
+                        each star in [1,2,3,4,5]
+                            svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
                                 use(xlink:href='/img/icons.svg#icon-star')
                         
 
@@ -77,8 +80,8 @@ block content
         .cta
             .cta__img.cta__img--logo
                 img(src='/img/logo-white.png', alt='Natours logo')
-            img.cta__img.cta__img--1(src=`/img/tours/${tour.images[0]}`, alt='')
-            img.cta__img.cta__img--2(src=`/img/tours/${tour.images[1]}`, alt='')
+            img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='Tour picture')
+            img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture')
             .cta__content
                 h2.heading-secondary What are you waiting for?
                 p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`

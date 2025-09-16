@@ -66,14 +66,40 @@ exports.login = catchAsync(async (req, res, next) => {
   sendResponseToken(user, 200, res);
 });
 
+// Only for rendered pages
+exports.isLogedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    // 2. Verify token.
+    const decodedPayload = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRETE,
+    );
+
+    // 3.Check if user still exists
+    const currentUser = await User.findById(decodedPayload.id);
+    if (!currentUser) return next();
+
+    // 4. Check if user changed password after token was issued.
+    if (currentUser.passwordChangedAfter(decodedPayload.iat)) return next();
+
+    // Set user
+    res.locals.user = currentUser;
+    return next();
+  }
+  next();
+});
+
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
   // 1. Get token and check if it's there
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith('Bearer')
-  )
+  ) {
     token = req.headers.authorization.split(' ')[1];
+  } else if (req.cookies.jwt) {
+    token = req.cookies.jwt;
+  }
 
   if (!token)
     return next(
