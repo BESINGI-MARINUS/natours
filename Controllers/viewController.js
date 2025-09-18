@@ -1,4 +1,5 @@
 const Tour = require('../models/toursModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
@@ -15,21 +16,22 @@ exports.getTour = catchAsync(async (req, res, next) => {
     select: 'review rating user',
   });
 
+  if (!tour) next(new AppError('There is no tour with that name!', 404));
+
   res.status(200).render('tour', {
     title: tour.name,
     tour,
   });
-
-  // res.status(200).json({
-  //   status: 'success',
-  //   data: {
-  //     tour,
-  //   },
-  // });
 });
 
 exports.login = (req, res, next) => {
   res.status(200).render('login', {
     title: 'Login to your account',
+  });
+};
+
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'My Account',
   });
 };

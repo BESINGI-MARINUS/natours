@@ -17,32 +17,60 @@ const handleValidatioErrDB = (err) => {
 const handleJWTError = () =>
   new AppError('Invalid token. Please login again.', 401);
 
-const errorDev = (error, res) => {
-  res.status(error.statusCode).json({
-    status: error.status,
-    message: error.message,
-    error,
-    stack: error.stack,
+const errorDev = (error, req, res) => {
+  // API error
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(error.statusCode).json({
+      status: error.status,
+      message: error.message,
+      error,
+      stack: error.stack,
+    });
+  }
+
+  // For rendered website
+  console.error('ERROR 🚨🚨', error);
+  res.status(error.statusCode).render('error', {
+    title: 'Something went wrong',
+    msg: error.message,
   });
 };
 
-const errorProd = (error, res) => {
-  // Operational error; Send error
-  if (error.isOperational) {
-    res.status(error.statusCode).json({
-      status: error.status,
-      message: error.message,
-    });
-  } else {
+const errorProd = (error, req, res) => {
+  // A. API
+  if (req.originalUrl.startsWith('/api')) {
+    // Operational error; Send error
+    if (error.isOperational) {
+      return res.status(error.statusCode).json({
+        status: error.status,
+        message: error.message,
+      });
+    }
     // programming or other unknown error, conceal error message from user
-    console.error('ERROR 😥😥', error);
+    console.error('ERROR 🚨🚨', error);
 
     // Send a user-friendly response to user
-    res.status(500).json({
+    return res.status(500).json({
       status: 'error',
       message: 'Something really went wrong',
     });
   }
+
+  //B. RENDERED WEBSITE
+  if (error.isOperational) {
+    return res.status(error.statusCode).render('error', {
+      title: 'Something went wrong',
+      msg: error.message,
+    });
+  }
+  // programming or other unknown error, conceal error message from user
+  console.error('ERROR 🚨🚨', error);
+
+  // Send a user-friendly response to user
+  return res.status(error.statusCode).render('error', {
+    title: 'Something went wrong',
+    msg: 'Please try again later',
+  });
 };
 
 module.exports = (error, req, res, next) => {
@@ -53,7 +81,7 @@ module.exports = (error, req, res, next) => {
   );
 
   if (process.env.NODE_ENV === 'development') {
-    errorDev(error, res);
+    errorDev(error, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     if (error.name === 'CastError') error = handleCastErrDB(error);
     if (error.code === 11000) error = handleDuplicateErrDB(error);
@@ -63,6 +91,6 @@ module.exports = (error, req, res, next) => {
       error = new AppError('Your token has expired. Please log in again.', 401);
     }
     // Send error response to user
-    errorProd(error, res);
+    errorProd(error, req, res);
   }
 };

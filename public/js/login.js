@@ -19,3 +19,17 @@ export const login = async (email, password) => {
     showAlert('error', err.response.data.message);
   }
 };
+
+export const logout = async () => {
+  try {
+    const res = await axios.get('/api/v1/users/logout');
+    if (res.data.status === 'success') {
+      showAlert('success', 'Successfully logged out!');
+      window.setTimeout(() => {
+        location.reload(true);
+      }, 3000);
+    }
+  } catch (err) {
+    showAlert('error', 'Unable to logout. Please try again!');
+  }
+};
