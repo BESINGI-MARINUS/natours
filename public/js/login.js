@@ -26,7 +26,8 @@ export const logout = async () => {
     if (res.data.status === 'success') {
       showAlert('success', 'Successfully logged out!');
       window.setTimeout(() => {
-        location.reload(true);
+        // location.reload(true); //This is to reload thesame page from the server.
+        location.assign('/login');
       }, 3000);
     }
   } catch (err) {
