@@ -1,11 +1,10 @@
 import axios from 'axios';
 import { showAlert } from './alert';
 
-// data could either be {name,email}, or password reset details
+// data could either be {name,email,photo}, or password reset details
 export const updateSettings = async function (data, type) {
   const url =
     type === 'data' ? '/api/v1/users/updateMe' : 'api/v1/users/updatePassword';
-  console.log(url, data);
 
   try {
     const res = await axios.patch(url, data);
@@ -16,7 +15,7 @@ export const updateSettings = async function (data, type) {
     if (type === 'data')
       window.setTimeout(() => {
         location.reload(true);
-      }, 3000);
+      }, 2000);
   } catch (err) {
     showAlert('error', err.response.data.message);
   }

@@ -85,7 +85,6 @@ app.use((req, res, next) => {
   req.requestTime = `0${new Date().getDate()}-0${
     new Date().getMonth() + 1
   }-${new Date().getFullYear()}`;
-  console.log(req.cookies);
   next();
 });
 

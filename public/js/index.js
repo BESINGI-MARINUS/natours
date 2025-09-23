@@ -22,10 +22,12 @@ if (logoutBtn) logoutBtn.addEventListener('click', logout);
 if (updateForm)
   updateForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    const name = updateForm.querySelector('#name').value;
-    const email = updateForm.querySelector('#email').value;
+    const form = new FormData();
+    form.append('name', updateForm.querySelector('#name').value);
+    form.append('email', updateForm.querySelector('#email').value);
+    form.append('photo', updateForm.querySelector('#photo').files[0]);
 
-    updateSettings({ name, email }, 'data');
+    updateSettings(form, 'data');
   });
 
 if (passwdUpdateForm)
@@ -50,7 +52,3 @@ if (passwdUpdateForm)
 
     document.querySelector('.change-passwd-btn').textContent = 'save password';
   });
-
-// "passwordPrevious":"test-1234",
-//   "password":"test-123",
-//   "passwordConfirm":"test-1234"
