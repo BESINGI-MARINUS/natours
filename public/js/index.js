@@ -1,11 +1,25 @@
-import { login, logout } from './login';
+import { signup, login, logout } from './login';
 import { updateSettings } from './updateSettings';
 
 // ELEMENTS
+const signupForm = document.getElementById('signup-form');
 const loginForm = document.querySelector('#form');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const updateForm = document.querySelector('.form-user-data');
 const passwdUpdateForm = document.querySelector('.form-user-password');
+
+if (signupForm) {
+  signupForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('confirm-password').value;
+
+    await signup({ name, email, password, passwordConfirm });
+  });
+}
 
 if (loginForm) {
   loginForm.addEventListener('submit', function (e) {

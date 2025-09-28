@@ -13,5 +13,6 @@ router.post(
   authController.protect,
   viewController.updateUserData,
 );
+router.get('/signup', viewController.signup);
 
 module.exports = router;
