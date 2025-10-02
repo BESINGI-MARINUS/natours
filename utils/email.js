@@ -13,7 +13,16 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       // Use sendgrid
-      return 1;
+      return nodemailer.createTransport({
+        // host: 'smtp.sendgrid.net',
+        // port: 587,
+        // secure: false,
+        service: 'Sendgrid',
+        auth: {
+          user: process.env.SENDGRID_USER,
+          pass: process.env.SENDGRID_API_KEY,
+        },
+      });
     }
 
     // Catch emails in mailtrap during developement.

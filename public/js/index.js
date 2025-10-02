@@ -1,5 +1,6 @@
 import { signup, login, logout } from './login';
 import { updateSettings } from './updateSettings';
+import { bookTour } from './stripe';
 
 // ELEMENTS
 const signupForm = document.getElementById('signup-form');
@@ -7,6 +8,7 @@ const loginForm = document.querySelector('#form');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const updateForm = document.querySelector('.form-user-data');
 const passwdUpdateForm = document.querySelector('.form-user-password');
+const btnBookTour = document.getElementById('book-tour-btn');
 
 if (signupForm) {
   signupForm.addEventListener('submit', async function (e) {
@@ -66,3 +68,13 @@ if (passwdUpdateForm)
 
     document.querySelector('.change-passwd-btn').textContent = 'save password';
   });
+
+if (btnBookTour) {
+  btnBookTour.addEventListener('click', async function (e) {
+    e.target.textContent = 'Processing...';
+    e.target.style.opacity = '0.6 ';
+    const { tourId } = e.target.dataset;
+
+    const res = await bookTour(tourId);
+  });
+}

@@ -11,30 +11,54 @@ const cookieParser = require('cookie-parser');
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
 const reviewRouter = require('./Routes/reviewRoutes');
+const bookingRouter = require('./Routes/bookingRoutes');
 const viewRouter = require('./Routes/viewRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./Controllers/errorController');
 const app = express();
 
 // MIDDLEWARES
-// app.use(helmet()); // Set security HTTP headers
-
+// helmet Sets security HTTP headers
 app.use(
   helmet({
     contentSecurityPolicy: {
       directives: {
         'default-src': ["'self'"],
-        'script-src': ["'self'", 'https://cdn.jsdelivr.net'],
+        'connect-src': [
+          "'self'",
+          'https://api.stripe.com', // Allow connections to Stripe's API
+          'https://*.stripe.com', // Allow connections to any Stripe subdomain for telemetry, etc.
+        ],
+        'script-src': [
+          "'self'",
+          'https://cdn.jsdelivr.net',
+          'https://js.stripe.com', // The main Stripe.js script
+        ],
+        'frame-src': [
+          "'self'",
+          'https://js.stripe.com', // Required for some modern Stripe Elements
+          'https://checkout.stripe.com', // Required for Stripe Checkout redirect page
+        ],
         'style-src': [
           "'self'",
           'https://fonts.googleapis.com',
-          "'unsafe-inline'",
+          "'unsafe-inline'", // Often needed for styles injected by JS libraries
         ],
-        'font-src': ["'self'", 'https://fonts.gstatic.com'],
-        'img-src': ["'self'", 'data:'],
-        'connect-src': ["'self'"],
+        'font-src': [
+          "'self'",
+          'https://fonts.gstatic.com',
+          'https://js.stripe.com',
+        ],
+        'img-src': [
+          "'self'",
+          'data:',
+          'https://*.stripe.com', // Allow images from any Stripe subdomain
+        ],
       },
     },
+    // This helps prevent clickjacking attacks
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: false,
   }),
 );
 
@@ -93,6 +117,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 app.use('/', viewRouter);
 
 app.all('*', (req, res, next) => {

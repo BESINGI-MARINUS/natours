@@ -9,6 +9,7 @@ mixin overviewBox(icon,label,text)
 
 block append head
     script(src='/js/mapbox.js' defer)
+    script(src='https://js.stripe.com/v3/')
 
 block content
     section.section-header
@@ -74,7 +75,7 @@ block content
                         each star in [1,2,3,4,5]
                             svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
                                 use(xlink:href='/img/icons.svg#icon-star')
-                        
+
 
     section.section-cta
         .cta
@@ -85,4 +86,8 @@ block content
             .cta__content
                 h2.heading-secondary What are you waiting for?
                 p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
-                button.btn.btn--green.span-all-rows Book tour now!
+
+                if user 
+                    button.btn.btn--green.span-all-rows#book-tour-btn(data-tour-id=`${tour.id}`) Book tour now!
+                else
+                    a.btn.btn--green.span-all-rows(href='/login') Login to book tour
