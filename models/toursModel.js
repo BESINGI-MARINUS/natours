@@ -165,12 +165,12 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (doc, next) {
-  console.log(
-    `Query took ${(Date.now() - this.startTime) / 1000} seconds to execute`,
-  );
-  next();
-});
+// tourSchema.post(/^find/, function (doc, next) {
+//   console.log(
+//     `Query took ${(Date.now() - this.startTime) / 1000} seconds to execute`,
+//   );
+//   next();
+// });
 
 // AGGREGATION MIDDLEWARE. // Commented this because geoNear is supposed to be the first stage in the aggregation pipeline. check tourController.getDistances
 // tourSchema.pre('aggregate', function (next) {

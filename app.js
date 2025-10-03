@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
@@ -103,6 +104,8 @@ app.use(
     ], // Whitelist of query parameters that are allowed to be duplicated
   }),
 );
+
+app.use(compression()); //To compress text and HTML response files
 
 // Middleware to add a request time property to the request object
 app.use((req, res, next) => {

@@ -7,13 +7,14 @@
     "start:prod": "npx cross-env NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "parcel:dev": "parcel ./public/js/index.js --dist-dir ./public/js/dist",
-    "parcel:prod": "parcel build ./public/js/index.js --dist-dir ./public/js "
+    "parcel:prod": "parcel build ./public/js/index.js --dist-dir ./public/js/dist "
   },
   "author": "Besingi Marinus",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

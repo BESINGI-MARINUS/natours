@@ -6,7 +6,6 @@ const stripe = Stripe(
 );
 
 export const bookTour = async (tourId) => {
-  console.log(stripe);
   try {
     // 1. Get session from API
     const session = await axios.get(
@@ -19,6 +18,5 @@ export const bookTour = async (tourId) => {
     });
   } catch (err) {
     showAlert('error', err);
-    console.log(err);
   }
 };

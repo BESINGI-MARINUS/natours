@@ -76,9 +76,6 @@ const errorProd = (error, req, res) => {
 module.exports = (error, req, res, next) => {
   error.status = error.status || 'error';
   error.statusCode = error.statusCode || 500;
-  console.log(
-    `=============== ${process.env.NODE_ENV} environment ===============`,
-  );
 
   if (process.env.NODE_ENV === 'development') {
     errorDev(error, req, res);
