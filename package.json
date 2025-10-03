@@ -8,7 +8,7 @@
     "start:prod": "npx cross-env NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "parcel:dev": "parcel ./public/js/index.js --dist-dir ./public/js/dist",
-    "parcel:prod": "parcel build ./public/js/index.js --dist-dir ./public/js/dist "
+    "build": "parcel build ./public/js/index.js --dist-dir ./public/js/dist "
   },
   "author": "Besingi Marinus",
   "license": "ISC",
