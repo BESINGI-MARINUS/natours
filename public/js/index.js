@@ -13,12 +13,13 @@ const btnBookTour = document.getElementById('book-tour-btn');
 if (signupForm) {
   signupForm.addEventListener('submit', async function (e) {
     e.preventDefault();
+    signupForm.querySelector('.btn--green').textContent = 'Processing...';
+    signupForm.querySelector('.btn--green').style.opacity = '0.6';
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('confirm-password').value;
-    console.log({ name, email, password, passwordConfirm });
 
     await signup({ name, email, password, passwordConfirm });
   });
@@ -26,6 +27,8 @@ if (signupForm) {
 
 if (loginForm) {
   loginForm.addEventListener('submit', function (e) {
+    loginForm.querySelector('.btn--green').textContent = 'Processing...';
+    loginForm.querySelector('.btn--green').style.opacity = '0.6';
     e.preventDefault();
 
     const email = document.getElementById('email').value;

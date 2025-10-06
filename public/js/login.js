@@ -9,7 +9,7 @@ export const signup = async (data) => {
     if (res.data.status === 'success') {
       showAlert(
         'success',
-        'Account created successfully.\n Please check your email (Check your email spam incase you did not see any email fron Natours',
+        'Account created successfully.\nPlease check your email or Email spam',
       );
       window.setTimeout(() => {
         location.assign('/');
