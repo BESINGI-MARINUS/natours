@@ -5,7 +5,9 @@ const handleCastErrDB = (err) => {
 };
 
 const handleDuplicateErrDB = (err) => {
-  const field = `${err.errmsg}`.match(/(name:\s*"([^"]+)")/)[2];
+  console.log('ERROR 🚨🚨🚨', err);
+  // const field = `${err.errmsg}`.match(/(name:\s*"([^"]+)")/)[2];
+  const field = Object.keys(err.keyValue)[0];
   const message = `Duplicate field value: "${field}". please use another value`;
   return new AppError(message, 404);
 };

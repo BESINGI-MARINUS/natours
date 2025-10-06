@@ -4,9 +4,13 @@ import { showAlert } from './alert';
 export const signup = async (data) => {
   try {
     const res = await axios.post('/api/v1/users/signup', data);
+    console.log(res.data);
 
     if (res.data.status === 'success') {
-      showAlert('success', 'Account created successfully');
+      showAlert(
+        'success',
+        'Account created successfully.\n Please check your email (Check your email spam incase you did not see any email fron Natours',
+      );
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);

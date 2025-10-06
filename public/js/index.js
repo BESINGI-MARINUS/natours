@@ -18,6 +18,7 @@ if (signupForm) {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('confirm-password').value;
+    console.log({ name, email, password, passwordConfirm });
 
     await signup({ name, email, password, passwordConfirm });
   });
