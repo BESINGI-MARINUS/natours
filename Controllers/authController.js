@@ -37,7 +37,6 @@ const sendResponseToken = (user, statusCode, res) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  // Added the passwordChangedAt,role fields to the request body
   const { name, email, password, passwordConfirm } = req.body;
   const user = await User.create({
     name,
@@ -48,7 +47,11 @@ exports.signup = catchAsync(async (req, res, next) => {
 
   // Send Welcome Email
   const url = `${req.protocol}://${req.get('host')}/me`;
-  await new Email(user, url).sendWelcome();
+  try {
+    await new Email(user, url).sendWelcome();
+  } catch (err) {
+    console.error('ERROR SENDING EMAIL 🚨🚨', err);
+  }
 
   // Web token to signIn new users automatically.
   sendResponseToken(user, 201, res);
