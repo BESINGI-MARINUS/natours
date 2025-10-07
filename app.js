@@ -72,6 +72,9 @@ app.use(express.static(`${path.join(__dirname, 'public')}`));
 app.set('view engine', 'pug');
 app.set('views', `${path.join(__dirname, 'view')}`);
 
+// Needed for the rate limiter to function properly.
+app.set('trust proxy', 1);
+
 // Limiting the number of api requests per hour. helps prvent DoS and Brute force attacks
 const limiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per `window` (here, per hour)
