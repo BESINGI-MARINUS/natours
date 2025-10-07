@@ -50,7 +50,8 @@ exports.signup = catchAsync(async (req, res, next) => {
   try {
     await new Email(user, url).sendWelcome();
   } catch (err) {
-    console.error('ERROR SENDING EMAIL 🚨🚨', err);
+    console.error('ERROR 🚨🚨', err?.message || 'Error sending welcome email');
+    return next(new AppError(err?.message || 'Error sending email.', 408));
   }
 
   // Web token to signIn new users automatically.

@@ -11,9 +11,9 @@ export const signup = async (data) => {
         'success',
         'Account created successfully.\nPlease check your email or Email spam',
       );
-      window.setTimeout(() => {
-        location.assign('/');
-      }, 1500);
+      // window.setTimeout(() => {
+      //   location.assign('/');
+      // }, 1500);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
