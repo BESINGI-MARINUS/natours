@@ -745,7 +745,12 @@ const signup = async (data)=>{
     try {
         const res = await (0, _axiosDefault.default).post('/api/v1/users/signup', data);
         console.log(res.data);
-        if (res.data.status === 'success') (0, _alert.showAlert)('success', 'Account created successfully.\nPlease check your email or Email spam');
+        if (res.data.status === 'success') {
+            (0, _alert.showAlert)('success', 'Account created successfully.\nPlease check your email or Email spam');
+            window.setTimeout(()=>{
+                location.assign('/');
+            }, 1500);
+        }
     } catch (err) {
         (0, _alert.showAlert)('error', err.response.data.message);
     }
