@@ -4,9 +4,17 @@ import { showAlert } from './alert';
 export const signup = async (data) => {
   try {
     const res = await axios.post('/api/v1/users/signup', data);
-    console.log(res.data);
+    console.log(res);
 
-    if (res.data.status === 'success') {
+    if (res.data.emailError) {
+      showAlert(
+        'success',
+        `✅Account created successfully.\n❌${res.data.emailError}`,
+      );
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    } else if (res.data.status === 'success') {
       showAlert(
         'success',
         'Account created successfully.\nPlease check your email or Email spam',
