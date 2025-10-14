@@ -29,11 +29,13 @@ app.use(
           "'self'",
           'https://api.stripe.com', // Allow connections to Stripe's API
           'https://*.stripe.com', // Allow connections to any Stripe subdomain for telemetry, etc.
+          'https://unpkg.com',
         ],
         'script-src': [
           "'self'",
           'https://cdn.jsdelivr.net',
           'https://js.stripe.com', // The main Stripe.js script
+          'https://unpkg.com',
         ],
         'frame-src': [
           "'self'",
@@ -44,6 +46,7 @@ app.use(
           "'self'",
           'https://fonts.googleapis.com',
           "'unsafe-inline'", // Often needed for styles injected by JS libraries
+          'https://unpkg.com',
         ],
         'font-src': [
           "'self'",
@@ -54,6 +57,7 @@ app.use(
           "'self'",
           'data:',
           'https://*.stripe.com', // Allow images from any Stripe subdomain
+          'https://*.openstreetmap.org',
         ],
       },
     },
