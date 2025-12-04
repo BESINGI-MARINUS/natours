@@ -113,10 +113,6 @@ _You can test these endpoints using a tool like Postman or Insomnia._
 This project is functional but still under development. Here are the planned features to be implemented next:
 
 - [ ] **Mapbox Integration:** Display tour start locations on an interactive map on the tour details page.
-- [ ] **Image Uploads:** Allow tour guides and admins to upload cover images and tour photos using Multer.
-- [ ] **Payment Gateway:** Integrate Stripe for secure credit card payments to book tours.
-- [ ] **User Bookings Page:** Create a dedicated page for users to view their booked tours.
-- [ ] **Complete Front-End:** Build out all remaining server-rendered pages for a complete user experience.
 
 ## License
 
