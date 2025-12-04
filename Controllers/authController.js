@@ -14,17 +14,16 @@ const signToken = (id) => {
   });
 };
 
-const sendResponseToken = (user, statusCode, res) => {
+const sendResponseToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
-  const cookieOptions = {
+
+  res.cookie('jwt', token, {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true, // Make it so that the browser/client cannot modify the cookie
-  };
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  res.cookie('jwt', token, cookieOptions);
+    secure: req.secure,
+  });
   user.password = undefined; // Remove password from the response
 
   res.status(statusCode).json({
@@ -56,7 +55,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   }
 
   // Web token to signIn new users automatically.
-  sendResponseToken(user, 201, res);
+  sendResponseToken(user, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -72,7 +71,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
 
   // If user exist, create a web token
-  sendResponseToken(user, 200, res);
+  sendResponseToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
