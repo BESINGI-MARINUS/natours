@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const tourRouter = require('./Routes/tourRoutes');
 const userRouter = require('./Routes/userRoutes');
@@ -19,6 +20,11 @@ const globalErrorHandler = require('./Controllers/errorController');
 const app = express();
 
 // MIDDLEWARES
+// Enable CORS
+app.use(cors()); //Allow simple requests (GET,POST) to the API from Other domains
+
+app.options('*', cors());
+
 // helmet Sets security HTTP headers
 app.use(
   helmet({
