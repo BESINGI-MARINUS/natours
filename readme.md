@@ -33,6 +33,7 @@ Natours is a full-stack web application for a fictional tour company. It provide
 
 Here are the major technologies used in this project:
 
+- **Frontend** Vanilla JavaScript, Parcel module bundler
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB with Mongoose ODM
 - **Templating Engine:** Pug
@@ -74,7 +75,7 @@ Make sure you have Node.js and npm installed on your machine.
     PORT=8000
 
     # MongoDB Connection String
-    DATABASE_URL=your_mongodb_connection_string
+    DATABASE = your_mongodb_connection_string
     DATABASE_PASSWORD = your database password
 
     # JWT Configuration
@@ -86,9 +87,16 @@ Make sure you have Node.js and npm installed on your machine.
 5.  **Run the server:**
 
     - For development (with automatic restart on file changes):
-      npm start
+      npm run dev
     - For production:
-      npm run start:prod
+      npm start
+
+6. **Run the client:**
+
+    - For development (with automatic re-bundle on file changes):
+      npm run parcel:dev
+    - For production:
+      npm run build
 
     The application should now be running on `http://localhost:8000`.
 
@@ -106,7 +114,7 @@ The RESTful API is the core of the application. Here are some of the main endpoi
 | `GET`  | `/api/v1/users/me`              | Get the current logged-in user's profile | Private         |
 | `POST` | `/api/v1/tours/:tourId/reviews` | Create a new review for a specific tour  | Private (User)  |
 
-_You can test these endpoints using a tool like Postman or Insomnia._
+_You can test these endpoints using a tool like Postman._
 
 ## Roadmap
 
