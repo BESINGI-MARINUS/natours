@@ -3,17 +3,15 @@ const { promisify } = require('util');
 
 const jwt = require('jsonwebtoken');
 
-const User = require('./../models/userModel');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const Email = require('./../utils/email');
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const Email = require('../utils/email');
 
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRETE, {
+const signToken = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRETE, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-};
-
 const sendResponseToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
@@ -49,9 +47,8 @@ exports.signup = catchAsync(async (req, res, next) => {
   try {
     await new Email(user, url).sendWelcome();
   } catch (err) {
-    console.error('ERROR 🚨🚨', err?.message || 'Error sending welcome email');
-    res.emailError = `Error sending welcome email ${err?.message}`;
-    console.log(res);
+    console.error('ERROR 🚨🚨', err.message || 'Error sending welcome email');
+    res.emailError = `Error sending welcome email ${err.message}`;
   }
 
   // Web token to signIn new users automatically.
@@ -152,8 +149,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.restrictTo = (...roles) => {
-  return (req, res, next) => {
+exports.restrictTo =
+  (...roles) =>
+  (req, res, next) => {
     // roles ['admin', 'lead-guide']. role='user'?create error:continue.
     if (!roles.includes(req.user.role)) {
       return next(
@@ -162,8 +160,6 @@ exports.restrictTo = (...roles) => {
     }
     next();
   };
-};
-
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1. Get user based on posted email
   const user = await User.findOne({ email: req.body.email });

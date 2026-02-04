@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import axios from 'axios';
 import { showAlert } from './alert';
 import Stripe from 'stripe';

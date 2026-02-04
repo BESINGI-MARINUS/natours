@@ -19,7 +19,7 @@
 // }
 
 {
-  "extends": ["airbnb", "plugin:node/recommended", "prettier"],
+  "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "rules": {
     "spaced-comment": "off",
     "no-console": "warn",
@@ -33,5 +33,17 @@
     "class-methods-use-this": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
-  }
+  },
+  "overrides": [
+    {
+      "files": ["public/**/*.js"],
+      "parserOptions": {
+        "sourceType": "module"
+      },
+      "rules": {
+        "import/extensions": "off",
+        "node/no-unsupported-features/es-syntax": "off"
+      }
+    }
+  ]
 }

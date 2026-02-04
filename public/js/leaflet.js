@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 const locations = JSON.parse(document.getElementById('map').dataset.locations);
-let map = L.map('map').setView([34.0116172, -118.7323183], 13);
+const map = L.map('map').setView([34.0116172, -118.7323183], 13);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   maxZoom: 19,
