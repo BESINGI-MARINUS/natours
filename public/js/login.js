@@ -6,7 +6,6 @@ import { showAlert } from './alert';
 export const signup = async (data) => {
   try {
     const res = await axios.post('/api/v1/users/signup', data);
-    console.log(res);
 
     if (res.data.emailError) {
       showAlert(

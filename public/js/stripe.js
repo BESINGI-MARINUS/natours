@@ -18,9 +18,14 @@ export const bookTour = async (tourId) => {
     );
 
     // // 2. Create checkout form and charge card
-    await stripe.redirectToCheckout({
-      sessionId: session.data.session.id,
-    });
+    // DEPRECATED METHOD
+    // await stripe.redirectToCheckout({
+    //   sessionId: session.data.session.id,
+    // });
+    // console.log(session.data.session.url);
+
+    // 2. Create checkout form and charge card
+    window.location.href = session.data.session.url;
   } catch (err) {
     showAlert('error', err);
   }

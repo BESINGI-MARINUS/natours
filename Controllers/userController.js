@@ -1,8 +1,8 @@
 const multer = require('multer');
 const sharp = require('sharp');
-const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
-const User = require('./../models/userModel');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const User = require('../models/userModel');
 const factory = require('./handlerFactory');
 
 // const multerStorage = multer.diskStorage({
@@ -73,7 +73,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  // 1) Filter out unwanted fields names that are not allowed to be updated
+  // 1) Filter out unwanted field names that are not allowed to be updated
   const filteredBody = filterObj(req.body, 'name', 'email');
   if (req.file) filteredBody.photo = req.file.filename;
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
